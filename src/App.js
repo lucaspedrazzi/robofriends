@@ -1,35 +1,54 @@
-import React, { Component, Fragment } from 'react';
-import './App.css';
-import './SearchBox.css';
-import CardList from './CardList';
-import SearchBox from './SearchBox';
-import {robots} from './robots';
+import React, { Component, Fragment } from "react";
+import "./App.css";
+import "./SearchBox.css";
+import CardList from "./CardList";
+import SearchBox from "./SearchBox";
+import Scroll from './Scroll';
 
 class App extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
-      robots: robots,
-      searchfield: ''
-    }
+      robots: [],
+      searchfield: ""
+    };
   }
 
-  onSearchChange = (event) => {
-    this.setState({ searchfield: event.target.value });
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(response => {
+        return response.json();
+      })
+      .then(users => {
+        this.setState({ robots: users });
+      });
   }
+
+  onSearchChange = event => {
+    this.setState({ searchfield: event.target.value });
+  };
   render() {
     const filterdRobots = this.state.robots.filter(robot => {
-      return robot.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
-    })
-    return (
-      <Fragment>
-      <section className="tc">
-        <h1 className="f1">Robofriends</h1>
-        <SearchBox searchChange={this.onSearchChange} />
-        <CardList robots={filterdRobots} />
-      </section>
-      </Fragment>
-    )
+      return robot.name
+        .toLowerCase()
+        .includes(this.state.searchfield.toLowerCase());
+    });
+    if (this.state.robots.length === 0) {
+      return <h1>Loading...</h1>;
+    } else {
+      return (
+        <Fragment>
+          <section className="tc">
+            <h1 className="f1">Robofriends</h1>
+            <SearchBox searchChange={this.onSearchChange} />
+            <Scroll>
+              <CardList robots={filterdRobots} />
+            </Scroll>
+            
+          </section>
+        </Fragment>
+      );
+    }
   }
 }
 
