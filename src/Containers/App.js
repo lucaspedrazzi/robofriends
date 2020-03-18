@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
 import "./App.css";
 import "../Components/SearchBox.css";
-import CardList from "../Components/CardList";
-import SearchBox from "../Components/SearchBox";
-import Scroll from "../Components/Scroll";
-import ErrorBoundry from "../Components/ErrorBondry";
+import CardList from "../Components/card-list/CardList";
+import SearchBox from "../Components/search-box/SearchBox";
+import Scroll from "../Components/scroll/Scroll";
+import ErrorBoundry from "../Components/ErrorBondry/ErrorBondry";
 
 class App extends Component {
   constructor() {
